@@ -1,0 +1,68 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://titan:df6100${RS_HOST:172.21.29.55}:7777/eureka/
+  instance:
+#    appGroupName: BUSINESS
+#    metadata-map:
+#      filters: AddAuthenticationBody
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+    prefer-ip-address: true
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: auth-center
+#  cloud:
+#   config:
+#     profile: dev
+#     label: master
+#     discovery:
+#       enabled: true
+#       service-id:
+  redis:
+    database: 0
+    host: ${REDIS_HOST:172.21.29.55}
+    port: ${REDIS_PORT:6379}
+  datasource:
+    druid:
+      url: jdbc:mysql://${MYSQL_HOST:172.21.29.55}:${MYSQL_PORT:3306}/titan-security?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      username: one
+      password: df6100
+      driverClassName: com.mysql.jdbc.Driver
+      validationQuery: select 'x'
+  freemarker:
+    request-context-attribute: request
+    #template-loader-path: classpath:/templates
+    #check-template-location: true
+    #content-type: text/html
+    #suffix: .ftl
+  rabbitmq:
+    host: ${MQ_HOST:172.21.29.55}
+    port: 5672
+    username: guest
+    password: guest
+
+security:
+  basic:
+    enable: false
+  oauth2:
+    resource:
+      jwt:
+       key-uri: http://${AUTH_CENTER_HOST:172.21.29.14}:${AUTH_CENTER_PORT:18001}/auth/oauth/token_key
+      id: ${spring.application.name}
+      serviceId: ${spring.application.name}
+mybatis:
+  type-aliases-package: com.wisdom.auth.provider.mapper.model
+  mapper-locations: classpath:mybatis/mapper/*.xml
+
+server:
+  port: 18001
+  servlet:
+    context-path: /auth
+
+logging:
+  file: logs/auth-server-db.log
+  level:
+    com.wisdom.auth: debug
