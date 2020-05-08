@@ -13,7 +13,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  */
 @SpringBootApplication
 @EnableAuthorizationServer
-@MapperScan(basePackages = "com.wisdom.auth.provider.mapper.mapper")
+//@MapperScan(basePackages = "com.wisdom.auth.provider.mapper.mapper")
 public class AuthCenterProviderApplication {
    public static void main(String[] args){
        SpringApplication.run(AuthCenterProviderApplication.class, args);

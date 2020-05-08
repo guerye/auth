@@ -2,12 +2,12 @@ package com.wisdom.auth.provider.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.wisdom.auth.autoconfigure.controller.CrudController;
-import com.wisdom.auth.common.pojo.ResponseData;
+import com.wisdom.auth.provider.pojo.ResponseData;
 import com.wisdom.auth.common.pojo.TableData;
-import com.wisdom.auth.provider.mapper.model.RoleDeptRel;
-import com.wisdom.auth.provider.mapper.model.RoleInfo;
-import com.wisdom.auth.provider.mapper.model.RoleMenuRel;
-import com.wisdom.auth.provider.mapper.model.UserRoleRel;
+import com.wisdom.auth.provider.mapper.model.master.RoleDeptRel;
+import com.wisdom.auth.provider.mapper.model.master.RoleInfo;
+import com.wisdom.auth.provider.mapper.model.master.RoleMenuRel;
+import com.wisdom.auth.provider.mapper.model.master.UserRoleRel;
 import com.wisdom.auth.provider.pojo.ResponseCode;
 import com.wisdom.auth.provider.pojo.request.RoleInfoRequest;
 import com.wisdom.auth.provider.config.redis.AccessTokenUtils;
@@ -55,9 +55,9 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
         }catch (Exception e){
             logger.error("根据用户查询角色失败");
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
     /**
@@ -74,7 +74,7 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
             temp.setModules(null);
             result.add(temp);
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), result);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), result);
     }
 
     @GetMapping("/role/all")
@@ -86,9 +86,9 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
         }catch (Exception e){
             logger.error("获取所有角色失败");
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
     @PostMapping("/role/table")
@@ -128,9 +128,9 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
         } catch (Exception e) {
             logger.error("添加角色失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
     @PostMapping("/role/delete")
@@ -142,9 +142,9 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
         } catch (Exception e) {
             logger.error("删除角色失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
     @PostMapping("/role/update")
@@ -157,9 +157,9 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
         } catch (Exception e) {
             logger.error("更新角色失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
     @GetMapping("/role/validate/{roleNo}")
@@ -169,9 +169,9 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
         roleInfo.setRoleNo(roleNo);
         roleInfo = roleInfoService.selectOne(roleInfo);
         if(roleInfo == null) {
-            return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+            return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
         }
-        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
     }
 
     @GetMapping("/role/menu/{roleId}")
@@ -183,9 +183,9 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
         } catch (Exception e) {
             logger.error("查询角色已授权模块失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
 
@@ -323,9 +323,9 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
         } catch (Exception e) {
             logger.error("查询角色已授权组织机构失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
     @PostMapping("/role/dept/save")
@@ -351,9 +351,9 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
         } catch (Exception e) {
             logger.error("查询模块树异常" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
 }

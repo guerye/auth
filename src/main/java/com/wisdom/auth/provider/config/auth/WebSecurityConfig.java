@@ -60,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**","/js/**","/favicon.ico","/webjars/**","/images/**","/static/**",
                         "/hystrix.stream/**","/info","/error","/health","/env","/metrics","/trace","/dump",
                         "/jolokia","/configprops","/activiti","/logfile","/refresh","/flyway","/liquibase","/loggers","/druid/**",
-                        "/oauth/deleteToken", "/backReferer","/extractToken","/role/**","/dept/**","/menu/**","/system/**","/client/**","/user/**").permitAll()
+                        "/oauth/deleteToken", "/backReferer","/extractToken","/role/**","/dept/**","/menu/**","/system/**","/client/**","/user/**","/right/**").permitAll()
                 .anyRequest().authenticated()
                 // 由于使用的是JWT，我们这里不需要csrf
                 .and().csrf().disable();

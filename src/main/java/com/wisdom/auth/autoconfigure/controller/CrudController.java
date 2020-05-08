@@ -1,7 +1,7 @@
 package com.wisdom.auth.autoconfigure.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.wisdom.auth.common.pojo.ResponseData;
+import com.wisdom.auth.provider.pojo.ResponseData;
 import com.wisdom.auth.common.pojo.TableData;
 
 import java.util.List;
@@ -39,6 +39,6 @@ abstract public class CrudController<T, R> {
         
         data.setTotal(pageInfo.getTotal());
         data.setRows(pageInfo.getList());
-        return new ResponseData(code,"", message, data);
+        return new ResponseData(code, message, data);
     }
 }

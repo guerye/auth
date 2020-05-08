@@ -1,15 +1,15 @@
 package com.wisdom.auth.provider.service;
 
-import com.wisdom.auth.common.pojo.ResponseData;
+import com.wisdom.auth.provider.pojo.ResponseData;
 import com.wisdom.auth.common.utils.JsonUtils;
 import com.wisdom.auth.provider.controller.DeptInfoController;
 import com.wisdom.auth.provider.controller.MenuInfoController;
 import com.wisdom.auth.provider.controller.RoleInfoController;
 import com.wisdom.auth.provider.controller.UserInfoController;
-import com.wisdom.auth.provider.mapper.model.DeptInfo;
-import com.wisdom.auth.provider.mapper.model.MenuInfo;
-import com.wisdom.auth.provider.mapper.model.RoleInfo;
-import com.wisdom.auth.provider.mapper.model.UserInfo;
+import com.wisdom.auth.provider.mapper.model.master.DeptInfo;
+import com.wisdom.auth.provider.mapper.model.master.MenuInfo;
+import com.wisdom.auth.provider.mapper.model.master.RoleInfo;
+import com.wisdom.auth.provider.mapper.model.master.UserInfo;
 import com.wisdom.auth.provider.pojo.ResponseCode;
 import com.wisdom.auth.provider.config.auth.filter.MyLoginAuthenticationFilter;
 import com.wisdom.auth.provider.config.auth.pojo.BaseUserDetail;
@@ -84,11 +84,11 @@ public class BaseUserDetailService implements UserDetailsService {
 //                System.out.println("====baseUserService2.getUserByPhone=====");
 //            }
 
-            if (baseUserResponseData.getData() == null || !ResponseCode.SUCCESS.getCode().equals(baseUserResponseData.getStatus())) {
+            if (baseUserResponseData.getResultData() == null || !ResponseCode.SUCCESS.getCode().equals(baseUserResponseData.getStatusCode())) {
                 logger.error("找不到该用户，手机号码：" + parameter[1]);
                 throw new UsernameNotFoundException("找不到该用户，手机号码：" + parameter[1]);
             }
-            userInfo = baseUserResponseData.getData();
+            userInfo = baseUserResponseData.getResultData();
         } else if (MyLoginAuthenticationFilter.SPRING_SECURITY_RESTFUL_TYPE_QR.equals(parameter[0])) {
             // 扫码登陆根据token从redis查询用户
             userInfo = null;
@@ -100,11 +100,11 @@ public class BaseUserDetailService implements UserDetailsService {
 
 
             System.out.println("====baseUserResponseData:" + JsonUtils.deserializer(baseUserResponseData));
-            if (baseUserResponseData.getData() == null || !ResponseCode.SUCCESS.getCode().equals(baseUserResponseData.getStatus())) {
+            if (baseUserResponseData.getResultData() == null || !ResponseCode.SUCCESS.getCode().equals(baseUserResponseData.getStatusCode())) {
                 logger.error("找不到该用户，用户名：" + parameter[1]);
                 throw new UsernameNotFoundException("找不到该用户，用户名：" + parameter[1]);
             }
-            userInfo = baseUserResponseData.getData();
+            userInfo = baseUserResponseData.getResultData();
         }
 
 
@@ -119,11 +119,11 @@ public class BaseUserDetailService implements UserDetailsService {
 //        }
         System.out.println("====baseRoleListResponseData:" + JsonUtils.deserializer(baseRoleListResponseData));
         List<RoleInfo> roles;
-        if (baseRoleListResponseData.getData() == null || !ResponseCode.SUCCESS.getCode().equals(baseRoleListResponseData.getStatus())) {
+        if (baseRoleListResponseData.getResultData() == null || !ResponseCode.SUCCESS.getCode().equals(baseRoleListResponseData.getStatusCode())) {
             logger.error("查询角色失败！");
             roles = new ArrayList<>();
         } else {
-            roles = baseRoleListResponseData.getData();
+            roles = baseRoleListResponseData.getResultData();
         }
 
         //调用FeignClient查询菜单
@@ -143,15 +143,15 @@ public class BaseUserDetailService implements UserDetailsService {
         List<GrantedAuthority> authorities = convertToAuthorities(userInfo, roles);  //TODO
 
         // 存储菜单到redis
-        if (ResponseCode.SUCCESS.getCode().equals(baseModuleResourceListResponseData.getStatus()) && baseModuleResourceListResponseData.getData() != null) {
+        if (ResponseCode.SUCCESS.getCode().equals(baseModuleResourceListResponseData.getStatusCode()) && baseModuleResourceListResponseData.getResultData() != null) {
             redisTemplate.delete(userInfo.getId() + "-menu");
-            baseModuleResourceListResponseData.getData().forEach(e -> {
+            baseModuleResourceListResponseData.getResultData().forEach(e -> {
                 redisTemplate.opsForList().leftPush(userInfo.getId() + "-menu", e);
             });
         }
-        if (ResponseCode.SUCCESS.getCode().equals(deptInfoListResponseData.getStatus()) && deptInfoListResponseData.getData() != null) {
+        if (ResponseCode.SUCCESS.getCode().equals(deptInfoListResponseData.getStatusCode()) && deptInfoListResponseData.getResultData() != null) {
             redisTemplate.delete(userInfo.getId() + "-dept");
-            deptInfoListResponseData.getData().forEach(e -> {
+            deptInfoListResponseData.getResultData().forEach(e -> {
                 redisTemplate.opsForList().leftPush(userInfo.getId() + "-dept", e);
             });
         }

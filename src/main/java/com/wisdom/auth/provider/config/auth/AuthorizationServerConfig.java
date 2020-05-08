@@ -41,7 +41,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 
     @Autowired
-    @Qualifier("dataSource")
+    @Qualifier("masterDataSource")
     private DataSource dataSource;
 
 

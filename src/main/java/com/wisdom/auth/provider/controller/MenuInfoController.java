@@ -2,12 +2,12 @@ package com.wisdom.auth.provider.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.wisdom.auth.autoconfigure.controller.CrudController;
-import com.wisdom.auth.common.pojo.ResponseData;
+import com.wisdom.auth.provider.pojo.ResponseData;
 import com.wisdom.auth.common.pojo.TableData;
-import com.wisdom.auth.provider.mapper.model.MenuInfo;
-import com.wisdom.auth.provider.mapper.model.MenuRightInfo;
-import com.wisdom.auth.provider.mapper.model.RoleMenuRel;
-import com.wisdom.auth.provider.mapper.model.UserInfo;
+import com.wisdom.auth.provider.mapper.model.master.MenuInfo;
+import com.wisdom.auth.provider.mapper.model.master.MenuRightInfo;
+import com.wisdom.auth.provider.mapper.model.master.RoleMenuRel;
+import com.wisdom.auth.provider.mapper.model.master.UserInfo;
 import com.wisdom.auth.provider.pojo.ResponseCode;
 import com.wisdom.auth.provider.pojo.request.MenuInfoRequest;
 import com.wisdom.auth.provider.config.redis.AccessTokenUtils;
@@ -59,16 +59,16 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         }catch (Exception e){
             logger.error("根据用户查询菜单错误");
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
     @GetMapping("/menu/auth/tree")
     public ResponseData<List<MenuInfo>> getCurrentMenu() {
         List<MenuInfo> list = accessTokenUtils.getMenuInfo();
          logger.debug("查询当前用户菜单");
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);//
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);//
     }
 
     @RequestMapping("/menu/error")
@@ -92,7 +92,7 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
     public ResponseData<List<MenuInfo>> getCurrentMenuList() {
         logger.debug("查询当前用户组织机构列表");
         List<MenuInfo> list =listHierarchy(accessTokenUtils.getMenuInfo());
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
     private List<MenuInfo> listHierarchy(List<MenuInfo> parent){
@@ -116,9 +116,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         } catch (Exception e) {
             logger.error("查询模块树异常" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
     @PostMapping(value = "/menu/roleMenuTree")
@@ -130,9 +130,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         } catch (Exception e) {
             logger.error("查询模块树异常" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
     @PostMapping(value = "/menu/menuButton")
@@ -143,9 +143,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         } catch (Exception e) {
             logger.error("查询模块树异常" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
     @PostMapping(value = "/menu/roleMenuButton")
@@ -156,9 +156,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         } catch (Exception e) {
             logger.error("查询模块树异常" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
     @PostMapping(value = "/menu/saveButtonAccess")
@@ -180,9 +180,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         } catch (Exception e) {
             logger.error("查询模块树异常" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
 
@@ -236,9 +236,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         } catch (Exception e) {
             logger.error("添加模块失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
     @PostMapping("/menu/delete")
@@ -250,9 +250,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         } catch (Exception e) {
             logger.error("删除模块失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
     @PostMapping("/menu/update")
@@ -265,9 +265,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         } catch (Exception e) {
             logger.error("更新模块失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
     @GetMapping("/menu/validate/{menuCode}")
@@ -277,9 +277,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         menuInfo.setMenuCode(menuCode);
         menuInfo = menuInfoService.selectOne(menuInfo);
         if(menuInfo == null) {
-            return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+            return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
         }
-        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
     }
 
     /**
@@ -333,9 +333,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         }catch (Exception e){
             logger.error("根据用户查询角色失败");
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
 
@@ -348,9 +348,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         }catch (Exception e){
             logger.error("根据用户查询角色失败");
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
     @PostMapping("/right/rightInsert")
@@ -362,9 +362,9 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         }catch (Exception e){
             logger.error("根据用户查询角色失败");
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
     @PostMapping("/right/rightUpdate")
@@ -375,8 +375,8 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         }catch (Exception e){
             logger.error("根据用户查询角色失败");
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 }

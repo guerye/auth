@@ -1,8 +1,8 @@
 package com.wisdom.auth.provider.service;
 
 import com.wisdom.auth.autoconfigure.service.BaseService;
-import com.wisdom.auth.provider.mapper.model.RoleInfo;
-import com.wisdom.auth.provider.mapper.mapper.RoleInfoMapper;
+import com.wisdom.auth.provider.mapper.model.master.RoleInfo;
+import com.wisdom.auth.provider.mapper.mapper.master.RoleInfoMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

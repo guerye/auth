@@ -1,29 +1,40 @@
-server:
-  port: 18001
-  servlet:
-   context-path: /auth
+eureka:
+  client:
+    service-url:
+      defaultZone: http://titan:df6100@${RS_HOST:172.21.29.55}:7777/eureka/
+  instance:
+    #    appGroupName: BUSINESS
+    #    metadata-map:
+    #      filters: AddAuthenticationBody
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+    prefer-ip-address: true
 spring:
   main:
     allow-bean-definition-overriding: true
   application:
     name: auth-center
-#  profiles:
-#    active: dev
-#  cloud:
-    #consul:
-    #  host: ${CONSUL_HOST:localhost}
-    #  port: ${CONSUL_PORT:8500}
-    #  discovery:
-    #    prefer-ip-address: true
-    #    health-check-path: ${server.context-path}/health
-    #    tags: management.context-path=${server.context-path}
+  #  cloud:
+  #   config:
+  #     profile: dev
+  #     label: master
+  #     discovery:
+  #       enabled: true
+  #       service-id:
   redis:
     database: 0
     host: ${REDIS_HOST:172.21.29.55}
     port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASS_WORD:wisdom.df6100}
   datasource:
-    druid:
-      url: jdbc:mysql://${MYSQL_HOST:172.21.29.55}:${MYSQL_PORT:3306}/titan-security?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    master:
+      url: jdbc:mysql://${MYSQL_HOST:172.21.29.55}:${MYSQL_PORT:3306}/titan-security-hegang?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      username: one
+      password: df6100
+      driverClassName: com.mysql.jdbc.Driver
+      validationQuery: select 'x'
+    vice:
+      url: jdbc:mysql://${MYSQL_HOST:172.21.29.55}:${MYSQL_PORT:3306}/titan-cim-hegang?useUnicode=true&characterEncoding=UTF-8&useSSL=false
       username: one
       password: df6100
       driverClassName: com.mysql.jdbc.Driver
@@ -39,32 +50,25 @@ spring:
     port: 5672
     username: guest
     password: guest
-eureka:
-  client:
-    service-url:
-      defaultZone: http://titan:df6100@172.21.29.55:7777/eureka/
-  instance:
-    appGroupName: BUSINESS
-    metadata-map:
-      filters: Default
-    lease-renewal-interval-in-seconds: 10
-    lease-expiration-duration-in-seconds: 30
-    prefer-ip-address: true
+
 security:
   basic:
     enable: false
   oauth2:
     resource:
       jwt:
-       key-uri: http://${AUTH_CENTER_HOST:172.21.29.55}:${AUTH_CENTER_PORT:18001}/auth/oauth/token_key
+        key-uri: http://${AUTH_CENTER_HOST:172.21.29.14}:${AUTH_CENTER_PORT:18001}/auth/oauth/token_key
       id: ${spring.application.name}
       serviceId: ${spring.application.name}
 mybatis:
   type-aliases-package: com.wisdom.auth.provider.mapper.model
   mapper-locations: classpath:mybatis/mapper/*.xml
 
-#mybatis-plus:
-#  classpath:/mapper/*Mapper.xml
+server:
+  port: 18001
+  servlet:
+    context-path: /auth
+
 logging:
   file: logs/auth-server-db.log
   level:

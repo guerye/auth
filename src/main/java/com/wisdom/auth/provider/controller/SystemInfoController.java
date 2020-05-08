@@ -2,9 +2,9 @@ package com.wisdom.auth.provider.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.wisdom.auth.autoconfigure.controller.CrudController;
-import com.wisdom.auth.common.pojo.ResponseData;
+import com.wisdom.auth.provider.pojo.ResponseData;
 import com.wisdom.auth.common.pojo.TableData;
-import com.wisdom.auth.provider.mapper.model.SystemInfo;
+import com.wisdom.auth.provider.mapper.model.master.SystemInfo;
 import com.wisdom.auth.provider.pojo.ResponseCode;
 import com.wisdom.auth.provider.pojo.request.SystemInfoRequest;
 import com.wisdom.auth.provider.pojo.response.ModuleAndSystemResponse;
@@ -63,9 +63,9 @@ public class SystemInfoController extends CrudController<SystemInfo, SystemInfoR
         } catch (Exception e) {
             logger.error("添加系统失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
     @PostMapping("/system/delete")
@@ -77,9 +77,9 @@ public class SystemInfoController extends CrudController<SystemInfo, SystemInfoR
         } catch (Exception e) {
             logger.error("删除系统失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
     @PostMapping("/system/update")
@@ -92,9 +92,9 @@ public class SystemInfoController extends CrudController<SystemInfo, SystemInfoR
         } catch (Exception e) {
             logger.error("更新系统失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
     @GetMapping("/system/validate/{projectName}")
@@ -104,9 +104,9 @@ public class SystemInfoController extends CrudController<SystemInfo, SystemInfoR
         systemInfo.setProjectName(projectName);
         systemInfo = systemInfoService.selectOne(systemInfo);
         if(systemInfo == null) {
-            return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+            return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
         }
-        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
     }
 
     @GetMapping("/system/all")
@@ -118,9 +118,9 @@ public class SystemInfoController extends CrudController<SystemInfo, SystemInfoR
         } catch (Exception e) {
             logger.error("查询所有系统失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
     @GetMapping("/system/menu")
@@ -132,9 +132,9 @@ public class SystemInfoController extends CrudController<SystemInfo, SystemInfoR
         } catch (Exception e) {
             logger.error("查询系统及模块树失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 
 

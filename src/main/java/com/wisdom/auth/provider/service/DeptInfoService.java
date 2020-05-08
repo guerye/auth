@@ -1,8 +1,8 @@
 package com.wisdom.auth.provider.service;
 
 import com.wisdom.auth.autoconfigure.service.BaseService;
-import com.wisdom.auth.provider.mapper.model.DeptInfo;
-import com.wisdom.auth.provider.mapper.mapper.DeptInfoMapper;
+import com.wisdom.auth.provider.mapper.model.master.DeptInfo;
+import com.wisdom.auth.provider.mapper.mapper.master.DeptInfoMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +30,10 @@ public class DeptInfoService extends BaseService<DeptInfo> {
      */
     public List<DeptInfo> selectDeptTree(Integer id) {
         return ((DeptInfoMapper)mapper).selectDeptTree(id);
+    }
+
+    public List<DeptInfo> findByWhere(DeptInfo deptInfo) {
+        return ((DeptInfoMapper)mapper).findByWhere(deptInfo);
     }
 
     public List<DeptInfo> roleDeptTree(Integer id) {

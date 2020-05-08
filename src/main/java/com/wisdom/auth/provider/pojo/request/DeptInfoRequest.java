@@ -1,7 +1,7 @@
 package com.wisdom.auth.provider.pojo.request;
 
 import com.wisdom.auth.common.pojo.BaseRequestPojo;
-import com.wisdom.auth.provider.mapper.model.DeptInfo;
+import com.wisdom.auth.provider.mapper.model.master.DeptInfo;
 
 import javax.persistence.Column;
 import javax.persistence.Id;

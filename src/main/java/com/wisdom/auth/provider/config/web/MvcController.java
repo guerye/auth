@@ -1,6 +1,6 @@
 package com.wisdom.auth.provider.config.web;
 
-import com.wisdom.auth.common.pojo.ResponseData;
+import com.wisdom.auth.provider.pojo.ResponseData;
 import com.wisdom.auth.provider.controller.OauthClientDetailsController;
 import com.wisdom.auth.provider.pojo.ResponseCode;
 
@@ -173,15 +173,15 @@ public class MvcController {
         //多个客户端 TODO ?
         ResponseData responseData=oauthClientDetailsController.getAllClient();
         if(null!=responseData) {
-            System.out.println(responseData.getStatus()+"====baseClientService====="+((List)responseData.getData()).size());
+            System.out.println(responseData.getStatusCode()+"====baseClientService====="+((List)responseData.getResultData()).size());
         }else {
 //            responseData = baseClientService2.getAllClient();
 //            System.out.println("====baseClientService2=====");
         }
 
-        if(ResponseCode.SUCCESS.getCode().equals(responseData.getStatus()) && responseData.getData() != null) {
+        if(ResponseCode.SUCCESS.getCode().equals(responseData.getStatusCode()) && responseData.getResultData() != null) {
             System.out.println("====baseClientService.getAllClient()=====success");
-            model.put("client",responseData.getData());
+            model.put("client",responseData.getResultData());
         } else {
             model.put("client",new ArrayList<>());
         }

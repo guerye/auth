@@ -1,8 +1,8 @@
 package com.wisdom.auth.provider.config.web;
 
-import com.wisdom.auth.common.pojo.ResponseData;
+import com.wisdom.auth.provider.pojo.ResponseData;
 import com.wisdom.auth.common.utils.JsonUtils;
-import com.wisdom.auth.provider.mapper.model.UserInfo;
+import com.wisdom.auth.provider.mapper.model.master.UserInfo;
 import com.wisdom.auth.provider.pojo.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.jwt.Jwt;
@@ -60,7 +60,7 @@ public class TokenController {
                 }
             }
 
-            return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), userInfo);
+            return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), userInfo);
         }
         catch (Exception e){
             e.printStackTrace();

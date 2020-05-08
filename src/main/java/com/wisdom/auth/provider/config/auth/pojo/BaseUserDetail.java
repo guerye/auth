@@ -1,6 +1,6 @@
 package com.wisdom.auth.provider.config.auth.pojo;
 
-import com.wisdom.auth.provider.mapper.model.UserInfo;
+import com.wisdom.auth.provider.mapper.model.master.UserInfo;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;

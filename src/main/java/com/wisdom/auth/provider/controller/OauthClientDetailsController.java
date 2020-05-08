@@ -2,9 +2,9 @@ package com.wisdom.auth.provider.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.wisdom.auth.autoconfigure.controller.CrudController;
-import com.wisdom.auth.common.pojo.ResponseData;
+import com.wisdom.auth.provider.pojo.ResponseData;
 import com.wisdom.auth.common.pojo.TableData;
-import com.wisdom.auth.provider.mapper.model.OauthClientDetails;
+import com.wisdom.auth.provider.mapper.model.master.OauthClientDetails;
 import com.wisdom.auth.provider.pojo.ResponseCode;
 import com.wisdom.auth.provider.pojo.request.OauthClientDetailsRequest;
 import com.wisdom.auth.provider.service.OauthClientDetailsService;
@@ -53,9 +53,9 @@ public class OauthClientDetailsController extends CrudController<OauthClientDeta
         } catch (Exception e) {
             logger.error("添加客户端应用失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
     @PostMapping("/client/delete")
@@ -67,9 +67,9 @@ public class OauthClientDetailsController extends CrudController<OauthClientDeta
         } catch (Exception e) {
             logger.error("删除客户端应用失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
     @PostMapping("/client/update")
@@ -81,9 +81,9 @@ public class OauthClientDetailsController extends CrudController<OauthClientDeta
         } catch (Exception e) {
             logger.error("更新客户端应用失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
     @GetMapping("/client/validate/{clientId}")
@@ -93,9 +93,9 @@ public class OauthClientDetailsController extends CrudController<OauthClientDeta
         oauthClientDetails.setClientId(clientId);
         oauthClientDetails = oauthClientDetailsService.selectOne(oauthClientDetails);
         if(oauthClientDetails == null) {
-            return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage());
+            return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
         }
-        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+        return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
     }
 
     @RequestMapping(value = "/client/all", method = RequestMethod.GET)
@@ -107,8 +107,8 @@ public class OauthClientDetailsController extends CrudController<OauthClientDeta
         } catch (Exception e) {
             logger.error("获取所有客户端应用失败：" + e.getMessage());
             e.printStackTrace();
-            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage(), ResponseCode.ERROR.getMessage());
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
-        return new ResponseData<>(ResponseCode.SUCCESS.getCode(),"", ResponseCode.SUCCESS.getMessage(), list);
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
     }
 }
