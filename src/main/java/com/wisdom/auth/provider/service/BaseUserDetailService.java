@@ -1,15 +1,15 @@
 package com.wisdom.auth.provider.service;
 
 import com.wisdom.auth.provider.pojo.ResponseData;
-import com.wisdom.auth.common.utils.JsonUtils;
+import com.wisdom.auth.provider.util.JsonUtils;
 import com.wisdom.auth.provider.controller.DeptInfoController;
 import com.wisdom.auth.provider.controller.MenuInfoController;
 import com.wisdom.auth.provider.controller.RoleInfoController;
 import com.wisdom.auth.provider.controller.UserInfoController;
-import com.wisdom.auth.provider.mapper.model.master.DeptInfo;
-import com.wisdom.auth.provider.mapper.model.master.MenuInfo;
-import com.wisdom.auth.provider.mapper.model.master.RoleInfo;
-import com.wisdom.auth.provider.mapper.model.master.UserInfo;
+import com.wisdom.auth.provider.mapper.model.DeptInfo;
+import com.wisdom.auth.provider.mapper.model.MenuInfo;
+import com.wisdom.auth.provider.mapper.model.RoleInfo;
+import com.wisdom.auth.provider.mapper.model.UserInfo;
 import com.wisdom.auth.provider.pojo.ResponseCode;
 import com.wisdom.auth.provider.config.auth.filter.MyLoginAuthenticationFilter;
 import com.wisdom.auth.provider.config.auth.pojo.BaseUserDetail;
@@ -146,7 +146,7 @@ public class BaseUserDetailService implements UserDetailsService {
         if (ResponseCode.SUCCESS.getCode().equals(baseModuleResourceListResponseData.getStatusCode()) && baseModuleResourceListResponseData.getResultData() != null) {
             redisTemplate.delete(userInfo.getId() + "-menu");
             baseModuleResourceListResponseData.getResultData().forEach(e -> {
-                redisTemplate.opsForList().leftPush(userInfo.getId() + "-menu", e);
+                redisTemplate.opsForList().rightPush(userInfo.getId() + "-menu", e);
             });
         }
         if (ResponseCode.SUCCESS.getCode().equals(deptInfoListResponseData.getStatusCode()) && deptInfoListResponseData.getResultData() != null) {

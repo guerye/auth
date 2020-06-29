@@ -1,9 +1,9 @@
 package com.wisdom.auth.provider.service;
 
 import com.wisdom.auth.autoconfigure.service.BaseService;
-import com.wisdom.auth.provider.mapper.model.master.UserInfo;
-import com.wisdom.auth.provider.mapper.model.master.UserRoleRel;
-import com.wisdom.auth.provider.mapper.mapper.master.UserInfoMapper;
+import com.wisdom.auth.provider.mapper.model.UserInfo;
+import com.wisdom.auth.provider.mapper.model.UserRoleRel;
+import com.wisdom.auth.provider.mapper.mapper.UserInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,6 +12,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yxs on 2019/1/9.
@@ -59,6 +60,9 @@ public class UserInfoService extends BaseService<UserInfo> {
     public List<UserInfo> getUnUserTableByRoleId(UserInfo info) {
         return ((UserInfoMapper)mapper).getUnUserTableByRoleId(info);
     }
-
+    public List<Map<Long,Object>> findMapByDomain(UserInfo t) {
+        // TODO Auto-generated method stub
+        return ((UserInfoMapper)mapper).findMapByDomain(t);
+    }
 
 }

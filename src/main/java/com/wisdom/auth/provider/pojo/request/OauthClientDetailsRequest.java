@@ -1,6 +1,6 @@
 package com.wisdom.auth.provider.pojo.request;
 
-import com.wisdom.auth.common.pojo.BaseRequestPojo;
+import com.wisdom.auth.provider.common.pojo.BaseRequestPojo;
 
 import javax.persistence.Column;
 import javax.persistence.Id;

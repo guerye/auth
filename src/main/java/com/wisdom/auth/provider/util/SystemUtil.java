@@ -3,7 +3,7 @@ package com.wisdom.auth.provider.util;
 
 
 import com.riozenc.titanTool.common.ClassDAOXmlUtil;
-import com.wisdom.auth.provider.mapper.model.master.DeptInfo;
+import com.wisdom.auth.provider.mapper.model.DeptInfo;
 
 
 /**

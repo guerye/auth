@@ -1,9 +1,9 @@
 package com.wisdom.auth.provider.service;
 
 import com.wisdom.auth.autoconfigure.service.BaseService;
-import com.wisdom.auth.provider.mapper.model.master.MenuInfo;
-import com.wisdom.auth.provider.mapper.model.master.MenuRightInfo;
-import com.wisdom.auth.provider.mapper.mapper.master.MenuInfoMapper;
+import com.wisdom.auth.provider.mapper.model.MenuInfo;
+import com.wisdom.auth.provider.mapper.model.MenuRightInfo;
+import com.wisdom.auth.provider.mapper.mapper.MenuInfoMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

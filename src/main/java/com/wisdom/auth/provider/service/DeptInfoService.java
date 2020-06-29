@@ -1,11 +1,14 @@
 package com.wisdom.auth.provider.service;
 
 import com.wisdom.auth.autoconfigure.service.BaseService;
-import com.wisdom.auth.provider.mapper.model.master.DeptInfo;
-import com.wisdom.auth.provider.mapper.mapper.master.DeptInfoMapper;
+import com.wisdom.auth.provider.mapper.mapper.UserInfoMapper;
+import com.wisdom.auth.provider.mapper.model.DeptInfo;
+import com.wisdom.auth.provider.mapper.mapper.DeptInfoMapper;
+import com.wisdom.auth.provider.mapper.model.UserInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yxs on 2019/1/9.
@@ -42,5 +45,13 @@ public class DeptInfoService extends BaseService<DeptInfo> {
 
     public List<DeptInfo> selectDeptDrop(DeptInfo deptInfo){
         return ((DeptInfoMapper)mapper).selectDeptDrop(deptInfo);
+    }
+    public List<Map<Long,Object>> findIdMapByDomain(DeptInfo t) {
+        // TODO Auto-generated method stub
+        return ((DeptInfoMapper)mapper).findIdMapByDomain(t);
+    }
+    public List<Map<Long,Object>> findDeptIdMapByDomain(DeptInfo t) {
+        // TODO Auto-generated method stub
+        return ((DeptInfoMapper)mapper).findDeptIdMapByDomain(t);
     }
 }

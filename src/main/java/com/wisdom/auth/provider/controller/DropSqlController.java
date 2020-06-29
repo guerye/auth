@@ -2,8 +2,8 @@ package com.wisdom.auth.provider.controller;
 
 import com.wisdom.auth.autoconfigure.controller.CrudController;
 import com.wisdom.auth.provider.pojo.ResponseData;
-import com.wisdom.auth.common.pojo.TableData;
-import com.wisdom.auth.provider.mapper.model.master.DropSql;
+import com.wisdom.auth.provider.common.pojo.TableData;
+import com.wisdom.auth.provider.mapper.model.DropSql;
 import com.wisdom.auth.provider.pojo.request.DropSqlRequest;
 import com.wisdom.auth.provider.service.DropSqlService;
 import org.slf4j.Logger;

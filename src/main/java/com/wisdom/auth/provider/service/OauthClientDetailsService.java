@@ -1,7 +1,7 @@
 package com.wisdom.auth.provider.service;
 
 import com.wisdom.auth.autoconfigure.service.BaseService;
-import com.wisdom.auth.provider.mapper.model.master.OauthClientDetails;
+import com.wisdom.auth.provider.mapper.model.OauthClientDetails;
 import org.springframework.stereotype.Service;
 
 

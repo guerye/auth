@@ -1,7 +1,7 @@
 eureka:
   client:
     service-url:
-      defaultZone: http://titan:df6100${RS_HOST:10.1.0.192}:7777/eureka/
+      defaultZone: http://titan:df6100@${RS_HOST:10.1.0.192}:7777/eureka/
   instance:
 #    appGroupName: BUSINESS
 #    metadata-map:

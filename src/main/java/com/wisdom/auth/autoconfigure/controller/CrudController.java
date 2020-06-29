@@ -1,8 +1,9 @@
 package com.wisdom.auth.autoconfigure.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.wisdom.auth.provider.common.pojo.TableData;
 import com.wisdom.auth.provider.pojo.ResponseData;
-import com.wisdom.auth.common.pojo.TableData;
+
 
 import java.util.List;
 

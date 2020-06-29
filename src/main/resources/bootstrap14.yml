@@ -1,7 +1,7 @@
 eureka:
   client:
     service-url:
-      defaultZone: http://titan:df6100${RS_HOST:172.21.29.55}:7777/eureka/
+      defaultZone: http://titan:df6100@${RS_HOST:172.21.29.55}:7777/eureka/
   instance:
 #    appGroupName: BUSINESS
 #    metadata-map:
@@ -28,7 +28,7 @@ spring:
     password: ${REDIS_PASS_WORD:wisdom.df6100}
   datasource:
     druid:
-      url: jdbc:mysql://${MYSQL_HOST:172.21.29.55}:${MYSQL_PORT:3306}/titan-security-hegang?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      url: jdbc:mysql://${MYSQL_HOST:172.21.29.55}:${MYSQL_PORT:3306}/titan-security?useUnicode=true&characterEncoding=UTF-8&useSSL=false
       username: one
       password: df6100
       driverClassName: com.mysql.jdbc.Driver
@@ -51,7 +51,7 @@ security:
   oauth2:
     resource:
       jwt:
-       key-uri: http://${AUTH_CENTER_HOST:172.21.29.14}:${AUTH_CENTER_PORT:18001}/auth/oauth/token_key
+       key-uri: http://${AUTH_CENTER_HOST:172.21.29.55}:${AUTH_CENTER_PORT:18001}/auth/oauth/token_key
       id: ${spring.application.name}
       serviceId: ${spring.application.name}
 mybatis:

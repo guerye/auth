@@ -1,9 +1,9 @@
 package com.wisdom.auth.provider.service;
 
 import com.wisdom.auth.autoconfigure.service.BaseService;
-import com.wisdom.auth.provider.mapper.model.master.RoleDeptRel;
-import com.wisdom.auth.provider.mapper.model.master.RoleMenuRel;
-import com.wisdom.auth.provider.mapper.mapper.master.RoleDeptRelMapper;
+import com.wisdom.auth.provider.mapper.model.RoleDeptRel;
+import com.wisdom.auth.provider.mapper.model.RoleMenuRel;
+import com.wisdom.auth.provider.mapper.mapper.RoleDeptRelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Condition;

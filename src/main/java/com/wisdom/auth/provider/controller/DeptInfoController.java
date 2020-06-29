@@ -3,9 +3,9 @@ package com.wisdom.auth.provider.controller;
 import com.github.pagehelper.PageInfo;
 import com.wisdom.auth.autoconfigure.controller.CrudController;
 import com.wisdom.auth.provider.pojo.ResponseData;
-import com.wisdom.auth.common.pojo.TableData;
-import com.wisdom.auth.provider.mapper.model.master.DeptInfo;
-import com.wisdom.auth.provider.mapper.model.master.UserInfo;
+import com.wisdom.auth.provider.common.pojo.TableData;
+import com.wisdom.auth.provider.mapper.model.DeptInfo;
+import com.wisdom.auth.provider.mapper.model.UserInfo;
 import com.wisdom.auth.provider.pojo.ResponseCode;
 import com.wisdom.auth.provider.pojo.request.DeptInfoRequest;
 import com.wisdom.auth.provider.config.redis.AccessTokenUtils;
@@ -19,6 +19,7 @@ import tk.mybatis.mapper.entity.Example;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yxs on 2019/1/17.
@@ -238,5 +239,33 @@ public class DeptInfoController extends CrudController<DeptInfo, DeptInfoRequest
             return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), list);
+    }
+
+    @PostMapping("/dept/findIdMapByDomain")
+    @ResponseBody
+    protected ResponseData<List<Map<Long,Object>>> findIdMapByDomain(@RequestBody DeptInfo record) {
+        List<Map<Long,Object>> deptList;
+        try {
+            deptList=deptInfoService.findIdMapByDomain(record);
+        } catch (Exception e) {
+            logger.error("查询用户map失败：" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),deptList);
+    }
+
+    @PostMapping("/dept/findDeptIdMapByDomain")
+    @ResponseBody
+    protected ResponseData<List<Map<Long,Object>>> findDeptIdMapByDomain(@RequestBody DeptInfo record) {
+        List<Map<Long,Object>> deptList;
+        try {
+            deptList=deptInfoService.findDeptIdMapByDomain(record);
+        } catch (Exception e) {
+            logger.error("查询用户map失败：" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),deptList);
     }
 }

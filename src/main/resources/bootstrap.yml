@@ -1,7 +1,7 @@
 eureka:
   client:
     service-url:
-      defaultZone: http://titan:df6100@${RS_HOST:172.21.29.55}:7777/eureka/
+      defaultZone: http://guidong:df6100@172.21.29.55:7777/guidong/eureka/
   instance:
     #    appGroupName: BUSINESS
     #    metadata-map:
@@ -24,21 +24,36 @@ spring:
   redis:
     database: 0
     host: ${REDIS_HOST:172.21.29.55}
-    port: ${REDIS_PORT:6379}
+    port: ${REDIS_PORT:6380}
     password: ${REDIS_PASS_WORD:wisdom.df6100}
   datasource:
-    master:
-      url: jdbc:mysql://${MYSQL_HOST:172.21.29.55}:${MYSQL_PORT:3306}/titan-security-hegang?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-      username: one
-      password: df6100
-      driverClassName: com.mysql.jdbc.Driver
-      validationQuery: select 'x'
-    vice:
-      url: jdbc:mysql://${MYSQL_HOST:172.21.29.55}:${MYSQL_PORT:3306}/titan-cim-hegang?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-      username: one
-      password: df6100
-      driverClassName: com.mysql.jdbc.Driver
-      validationQuery: select 'x'
+    druid:
+      url: jdbc:mysql://${MYSQL_HOST:172.21.29.55}:${MYSQL_PORT:3307}/titan-security?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      username: root
+      password: wisdom.df6100
+      driver-class-name: com.mysql.jdbc.Driver
+      max-active: 20
+      initial-size: 1
+      max-wait: 60000
+      min-idle: 1
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: select 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+      filters: stat, wall
+      # 监控配置
+      web-stat-filter:
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+      stat-view-servlet:
+        url-pattern: /druid/*
+        reset-enable: false
+        login-username: sysadmin
+        login-password: "000000"
   freemarker:
     request-context-attribute: request
     #template-loader-path: classpath:/templates
@@ -46,7 +61,7 @@ spring:
     #content-type: text/html
     #suffix: .ftl
   rabbitmq:
-    host: ${MQ_HOST:172.21.29.55}
+    host: ${MQ_HOST:192.168.229.128}
     port: 5672
     username: guest
     password: guest
@@ -57,7 +72,7 @@ security:
   oauth2:
     resource:
       jwt:
-        key-uri: http://${AUTH_CENTER_HOST:172.21.29.14}:${AUTH_CENTER_PORT:18001}/auth/oauth/token_key
+        key-uri: http://${AUTH_CENTER_HOST:192.168.229.128}:${AUTH_CENTER_PORT:18001}/auth/oauth/token_key
       id: ${spring.application.name}
       serviceId: ${spring.application.name}
 mybatis:
@@ -69,7 +84,7 @@ server:
   servlet:
     context-path: /auth
 
-logging:
-  file: logs/auth-server-db.log
-  level:
-    com.wisdom.auth: debug
+#logging:
+#  file: logs/auth-server-db.log
+#  level:
+#    com.wisdom.auth: debug

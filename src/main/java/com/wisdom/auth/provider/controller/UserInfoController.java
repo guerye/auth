@@ -3,9 +3,9 @@ package com.wisdom.auth.provider.controller;
 import com.github.pagehelper.PageInfo;
 import com.wisdom.auth.autoconfigure.controller.CrudController;
 import com.wisdom.auth.provider.pojo.ResponseData;
-import com.wisdom.auth.common.pojo.TableData;
-import com.wisdom.auth.provider.mapper.model.master.UserInfo;
-import com.wisdom.auth.provider.mapper.model.master.UserRoleRel;
+import com.wisdom.auth.provider.common.pojo.TableData;
+import com.wisdom.auth.provider.mapper.model.UserInfo;
+import com.wisdom.auth.provider.mapper.model.UserRoleRel;
 import com.wisdom.auth.provider.pojo.ResponseCode;
 import com.wisdom.auth.provider.pojo.request.UserInfoRequest;
 import com.wisdom.auth.provider.service.UserInfoService;
@@ -20,6 +20,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yxs on 2019/1/9.
@@ -86,7 +87,7 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
         Example example = new Example(UserInfo.class);
         Example.Criteria criteria = example.createCriteria();
 
-        if(!StringUtils.isEmpty(query.getId().toString())) {
+        if(query.getId()!=null&&!StringUtils.isEmpty(query.getId().toString())) {
             criteria.andEqualTo("id",  query.getId());
         }
         if(!StringUtils.isEmpty(query.getUserId())) {
@@ -285,4 +286,17 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
 
+    @PostMapping("/user/findMapByDomain")
+    @ResponseBody
+    protected ResponseData<List<Map<Long,Object>>> findMapByDomain(@RequestBody UserInfo record) {
+        List<Map<Long,Object>> userList;
+        try {
+            userList=userInfoService.findMapByDomain(record);
+        } catch (Exception e) {
+            logger.error("查询用户map失败：" + e.getMessage());
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),userList);
+    }
 }

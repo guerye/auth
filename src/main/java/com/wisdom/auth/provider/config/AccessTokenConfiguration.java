@@ -1,6 +1,7 @@
 package com.wisdom.auth.provider.config;
 
-import com.wisdom.auth.common.utils.JsonUtils;
+
+import com.wisdom.auth.provider.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.jwt.Jwt;

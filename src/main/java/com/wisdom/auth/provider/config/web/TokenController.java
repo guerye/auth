@@ -1,8 +1,8 @@
 package com.wisdom.auth.provider.config.web;
 
 import com.wisdom.auth.provider.pojo.ResponseData;
-import com.wisdom.auth.common.utils.JsonUtils;
-import com.wisdom.auth.provider.mapper.model.master.UserInfo;
+import com.wisdom.auth.provider.util.JsonUtils;
+import com.wisdom.auth.provider.mapper.model.UserInfo;
 import com.wisdom.auth.provider.pojo.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.jwt.Jwt;

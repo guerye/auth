@@ -2,12 +2,13 @@ package com.wisdom.auth.provider.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.wisdom.auth.autoconfigure.controller.CrudController;
+import com.wisdom.auth.provider.common.pojo.TableData;
 import com.wisdom.auth.provider.pojo.ResponseData;
-import com.wisdom.auth.common.pojo.TableData;
-import com.wisdom.auth.provider.mapper.model.master.MenuInfo;
-import com.wisdom.auth.provider.mapper.model.master.MenuRightInfo;
-import com.wisdom.auth.provider.mapper.model.master.RoleMenuRel;
-import com.wisdom.auth.provider.mapper.model.master.UserInfo;
+
+import com.wisdom.auth.provider.mapper.model.MenuInfo;
+import com.wisdom.auth.provider.mapper.model.MenuRightInfo;
+import com.wisdom.auth.provider.mapper.model.RoleMenuRel;
+import com.wisdom.auth.provider.mapper.model.UserInfo;
 import com.wisdom.auth.provider.pojo.ResponseCode;
 import com.wisdom.auth.provider.pojo.request.MenuInfoRequest;
 import com.wisdom.auth.provider.config.redis.AccessTokenUtils;
@@ -232,6 +233,7 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         try {
 //            record.setId(UUID.uuid32());
             record.setCreateDate(new Date());
+            record.setSystemId(1);
             menuInfoService.insertSelective(record);
         } catch (Exception e) {
             logger.error("添加模块失败：" + e.getMessage());

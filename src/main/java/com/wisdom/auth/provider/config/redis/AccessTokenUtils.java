@@ -1,12 +1,12 @@
 package com.wisdom.auth.provider.config.redis;
 
 import com.wisdom.auth.provider.config.AccessTokenConfiguration;
-import com.wisdom.auth.common.constant.Constant;
-import com.wisdom.auth.common.utils.JsonUtils;
-import com.wisdom.auth.provider.mapper.model.master.DeptInfo;
-import com.wisdom.auth.provider.mapper.model.master.MenuInfo;
-import com.wisdom.auth.provider.mapper.model.master.RoleInfo;
-import com.wisdom.auth.provider.mapper.model.master.UserInfo;
+
+import com.wisdom.auth.provider.mapper.model.DeptInfo;
+import com.wisdom.auth.provider.mapper.model.MenuInfo;
+import com.wisdom.auth.provider.mapper.model.RoleInfo;
+import com.wisdom.auth.provider.mapper.model.UserInfo;
+import com.wisdom.auth.provider.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -57,7 +57,7 @@ private RedisTemplate redisTemplate;
         }
         String content = accessTokenConfiguration.extract(token);
         Map map = JsonUtils.serializable(content, Map.class);
-        String json = JsonUtils.deserializer(map.get(Constant.USER_INFO));
+        String json = JsonUtils.deserializer(map.get("user_info"));
         UserInfo userInfo = JsonUtils.serializable(json, UserInfo.class);
         return userInfo;
     }
