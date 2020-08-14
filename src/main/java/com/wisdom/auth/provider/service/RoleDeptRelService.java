@@ -44,16 +44,16 @@ public class RoleDeptRelService extends BaseService<RoleDeptRel> {
 
 
     public void  deleteRoleDeptRel(RoleDeptRel roleDeptRel) {
-        String menuIds="";
-        for (int i = 0; i <roleDeptRel.getNeedDelList().size() ; i++) {
-            if(i!=0){
-                menuIds+=",";
-            }
-            menuIds+=roleDeptRel.getNeedDelList().get(i).toString();
-        }
+//        String menuIds="";
+//        for (int i = 0; i <roleDeptRel.getNeedDelList().size() ; i++) {
+//            if(i!=0){
+//                menuIds+=",";
+//            }
+//            menuIds+=roleDeptRel.getNeedDelList().get(i).toString();
+//        }
         Condition condition=new Condition(RoleMenuRel.class);
-        condition.createCriteria().andCondition("role_Id = "+roleDeptRel.getRoleId()+"")
-                .andCondition("dept_Id in ("+menuIds+")");
+        condition.createCriteria().andCondition("role_Id = "+roleDeptRel.getRoleId()+"");
+//                .andCondition("dept_Id in ("+menuIds+")");
         mapper.deleteByExample(condition);
     }
 }

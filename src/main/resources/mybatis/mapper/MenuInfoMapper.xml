@@ -146,6 +146,7 @@
     WHERE  m.PARENT_ID =0
       AND bs.ACTIVE =1
       AND m.status=1
+      order by m.sort_no
   </select>
 
     <select id="menuButton" resultMap="menuRightMap">
@@ -164,6 +165,7 @@
     WHERE  m.PARENT_ID =#{ID}
       AND bs.ACTIVE =1
       AND m.status=1
+      order by m.sort_no
   </select>
 
     <select id="selectMenusByParentIdWithOperating" resultMap="menuMap">

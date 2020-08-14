@@ -60,6 +60,8 @@ public class UserInfo implements Serializable {
     @Transient
     private Integer userRoleRelId;
 
+    @Transient
+    private String rolesName;
 
 
     public Integer getId() {
@@ -180,5 +182,13 @@ public class UserInfo implements Serializable {
 
     public void setUserRoleRelId(Integer userRoleRelId) {
         this.userRoleRelId = userRoleRelId;
+    }
+
+    public String getRolesName() {
+        return rolesName;
+    }
+
+    public void setRolesName(String rolesName) {
+        this.rolesName = rolesName;
     }
 }

@@ -193,40 +193,50 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
     public ResponseData saveRoleMenuRel(@RequestBody RoleMenuRel roleMenuRel) {
         logger.debug("保存角色权限");
         try {
-            Map<Integer,String> map=new HashMap<Integer,String>();
-            for (Integer integer : roleMenuRel.getOldRoleList()) {
-                map.put(integer,"old");
-            }
-            for (Integer integer : roleMenuRel.getNewRoleList()) {
-                if(map.get(integer)!=null){
-                    map.put(integer,"false");
-                }else{
-                    map.put(integer,"new");
-                }
-            }
-            List<Integer> needDelList=new ArrayList<Integer>();
             List<RoleMenuRel> addOrUpdateObj=new ArrayList<RoleMenuRel>();
-
-            for (Map.Entry<Integer, String> entry : map.entrySet()) {
-                if(entry.getKey()==null){
-                    continue;
-                }
-                if ("old".equals(entry.getValue())) {
-                    needDelList.add(entry.getKey());
-                }
-                if ("new".equals(entry.getValue())) {
+//            Map<Integer,String> map=new HashMap<Integer,String>();
+//            for (Integer integer : roleMenuRel.getOldRoleList()) {
+//                map.put(integer,"old");
+//            }
+//            for (Integer integer : roleMenuRel.getNewRoleList()) {
+//                if(map.get(integer)!=null){
+//                    map.put(integer,"false");
+//                }else{
+//                    map.put(integer,"new");
+//                }
+//            }
+//            List<Integer> needDelList=new ArrayList<Integer>();
+//            List<RoleMenuRel> addOrUpdateObj=new ArrayList<RoleMenuRel>();
+//
+//            for (Map.Entry<Integer, String> entry : map.entrySet()) {
+//                if(entry.getKey()==null){
+//                    continue;
+//                }
+//                if ("old".equals(entry.getValue())) {
+//                    needDelList.add(entry.getKey());
+//                }
+//                if ("new".equals(entry.getValue())) {
+//                    RoleMenuRel newRoleMenuRel=new RoleMenuRel();
+//                    newRoleMenuRel.setMenuId(entry.getKey());
+//                    newRoleMenuRel.setStatus(1);
+//                    newRoleMenuRel.setRoleId(roleMenuRel.getRoleId());
+//                    addOrUpdateObj.add(newRoleMenuRel);
+//                }
+//            }
+//            roleMenuRelService.saveRoleMenuRels(addOrUpdateObj);
+//            if(needDelList.size()>0){
+//                roleMenuRel.setNeedDelList(needDelList);
+//                roleMenuRelService.deleteRoleMenuRel(roleMenuRel);
+//            }
+            roleMenuRelService.deleteRoleMenuRel(roleMenuRel);
+            for (Integer o : roleMenuRel.getNewRoleList()) {
                     RoleMenuRel newRoleMenuRel=new RoleMenuRel();
-                    newRoleMenuRel.setMenuId(entry.getKey());
+                    newRoleMenuRel.setMenuId(o);
                     newRoleMenuRel.setStatus(1);
                     newRoleMenuRel.setRoleId(roleMenuRel.getRoleId());
                     addOrUpdateObj.add(newRoleMenuRel);
-                }
             }
             roleMenuRelService.saveRoleMenuRels(addOrUpdateObj);
-            if(needDelList.size()>0){
-                roleMenuRel.setNeedDelList(needDelList);
-                roleMenuRelService.deleteRoleMenuRel(roleMenuRel);
-            }
 
         } catch (RuntimeException e) {
             logger.error("保存角色权限失败" + e.getMessage());
@@ -240,38 +250,49 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
 
     @PostMapping("/role/saveRoleDeptRel")
     public ResponseData saveRoleDeptRel(@RequestBody RoleDeptRel roleDeptRel) {
+        //没有子节点时会出问题
         logger.debug("保存角色权限");
         try {
-            Map<Integer,String> map=new HashMap<Integer,String>();
-            for (Integer integer : roleDeptRel.getOldRoleList()) {
-                map.put(integer,"old");
-            }
-            for (Integer integer : roleDeptRel.getNewRoleList()) {
-                if(map.get(integer)!=null){
-                    map.put(integer,"false");
-                }else{
-                    map.put(integer,"new");
-                }
-            }
-            List<Integer> needDelList=new ArrayList<Integer>();
+            roleDeptRelService.deleteRoleDeptRel(roleDeptRel);
             List<RoleDeptRel> addOrUpdateObj=new ArrayList<RoleDeptRel>();
-
-            for (Map.Entry<Integer, String> entry : map.entrySet()) {
-                if ("old".equals(entry.getValue())) {
-                    needDelList.add(entry.getKey());
-                }
-                if ("new".equals(entry.getValue())) {
+            for (Integer i : roleDeptRel.getNewRoleList()) {
                     RoleDeptRel newRoleDeptRel=new RoleDeptRel();
-                    newRoleDeptRel.setDeptId(entry.getKey());
+                    newRoleDeptRel.setDeptId(i);
                     newRoleDeptRel.setRoleId(roleDeptRel.getRoleId());
                     addOrUpdateObj.add(newRoleDeptRel);
-                }
             }
             roleDeptRelService.saveRoleDeptRels(addOrUpdateObj);
-            if(needDelList.size()>0){
-                roleDeptRel.setNeedDelList(needDelList);
-                roleDeptRelService.deleteRoleDeptRel(roleDeptRel);
-            }
+
+//            Map<Integer,String> map=new HashMap<Integer,String>();
+//            for (Integer integer : roleDeptRel.getOldRoleList()) {
+//                map.put(integer,"old");
+//            }
+//            for (Integer integer : roleDeptRel.getNewRoleList()) {
+//                if(map.get(integer)!=null){
+//                    map.put(integer,"false");
+//                }else{
+//                    map.put(integer,"new");
+//                }
+//            }
+//            List<Integer> needDelList=new ArrayList<Integer>();
+//            List<RoleDeptRel> addOrUpdateObj=new ArrayList<RoleDeptRel>();
+//
+//            for (Map.Entry<Integer, String> entry : map.entrySet()) {
+//                if ("old".equals(entry.getValue())) {
+//                    needDelList.add(entry.getKey());
+//                }
+//                if ("new".equals(entry.getValue())) {
+//                    RoleDeptRel newRoleDeptRel=new RoleDeptRel();
+//                    newRoleDeptRel.setDeptId(entry.getKey());
+//                    newRoleDeptRel.setRoleId(roleDeptRel.getRoleId());
+//                    addOrUpdateObj.add(newRoleDeptRel);
+//                }
+//            }
+//            roleDeptRelService.saveRoleDeptRels(addOrUpdateObj);
+//            if(needDelList.size()>0){
+//                roleDeptRel.setNeedDelList(needDelList);
+//                roleDeptRelService.deleteRoleDeptRel(roleDeptRel);
+//            }
 
         } catch (RuntimeException e) {
             logger.error("保存角色权限失败" + e.getMessage());

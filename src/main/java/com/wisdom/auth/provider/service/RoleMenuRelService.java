@@ -55,16 +55,16 @@ public class RoleMenuRelService extends BaseService<RoleMenuRel> {
 
     // 查询关联角色的叶子模块
     public void  deleteRoleMenuRel(RoleMenuRel roleMenuRel) {
-        String menuIds="";
-        for (int i = 0; i <roleMenuRel.getNeedDelList().size() ; i++) {
-            if(i!=0){
-                menuIds+=",";
-            }
-            menuIds+=roleMenuRel.getNeedDelList().get(i).toString();
-        }
+//        String menuIds="";
+//        for (int i = 0; i <roleMenuRel.getNeedDelList().size() ; i++) {
+//            if(i!=0){
+//                menuIds+=",";
+//            }
+//            menuIds+=roleMenuRel.getNeedDelList().get(i).toString();
+//        }
         Condition condition=new Condition(RoleMenuRel.class);
-        condition.createCriteria().andCondition("role_Id = "+roleMenuRel.getRoleId()+"")
-        .andCondition("menu_Id in ("+menuIds+")");
+        condition.createCriteria().andCondition("role_Id = "+roleMenuRel.getRoleId()+"");
+//        .andCondition("menu_Id in ("+menuIds+")");
          mapper.deleteByExample(condition);
 
     }

@@ -15,11 +15,14 @@
     <result column="MAIL_ADDRESS" property="mailAddress" jdbcType="VARCHAR" />
     <result column="IMAGE_URL" property="imageUrl" jdbcType="VARCHAR" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ROLES_NAME" property="rolesName" jdbcType="VARCHAR"/>
   </resultMap>
 
 
   <select id="getUserTableByRoleId" resultMap="BaseResultMap">
-    SELECT U.*,T.id as userRoleRelId FROM USER_INFO U,USER_ROLE_REL T
+    SELECT U.*,s1.ROLES_NAME FROM USER_INFO U
+    LEFT JOIN USER_ROLE_REL T on U.ID=T.USER_ID
+    left join (select USER_ID,GROUP_CONCAT(r1.ROLE_NAME)ROLES_NAME from USER_ROLE_REL ur left join ROLE_INFO r1 on ur.ROLE_ID=r1.ID GROUP BY ur.USER_ID)s1 on s1.USER_ID= U.ID
     <where>
       U.ID=T.USER_ID AND T.ROLE_ID = #{roleId}
       <if test="userId != null and userId != ''">
