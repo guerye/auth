@@ -107,54 +107,61 @@ public class BaseUserDetailService implements UserDetailsService {
             userInfo = baseUserResponseData.getResultData();
         }
 
+        List<GrantedAuthority> authorities=new ArrayList<>();
+        if("wx".equals(parameter[0])){
 
-        // 调用FeignClient查询角色
-        ResponseData<List<RoleInfo>> baseRoleListResponseData = null;
-        //if(null!=baseRoleService.getRoleByUserId(userInfo.getId())){
-        baseRoleListResponseData = roleInfoController.getRoleByUserId(userInfo.getId());
-        //   System.out.println("====baseRoleService.getMenusByUserId(userInfo.getId()=====");
+        }else{
+
+            // 调用FeignClient查询角色
+            ResponseData<List<RoleInfo>> baseRoleListResponseData = null;
+            //if(null!=baseRoleService.getRoleByUserId(userInfo.getId())){
+            baseRoleListResponseData = roleInfoController.getRoleByUserId(userInfo.getId());
+            //   System.out.println("====baseRoleService.getMenusByUserId(userInfo.getId()=====");
 //        }else{
 //            baseRoleListResponseData=baseRoleService2.getRoleByUserId(userInfo.getId());
 //            System.out.println("====baseRoleService2.getMenusByUserId(userInfo.getId()=====");
 //        }
-        System.out.println("====baseRoleListResponseData:" + JsonUtils.deserializer(baseRoleListResponseData));
-        List<RoleInfo> roles;
-        if (baseRoleListResponseData.getResultData() == null || !ResponseCode.SUCCESS.getCode().equals(baseRoleListResponseData.getStatusCode())) {
-            logger.error("查询角色失败！");
-            roles = new ArrayList<>();
-        } else {
-            roles = baseRoleListResponseData.getResultData();
-        }
+            System.out.println("====baseRoleListResponseData:" + JsonUtils.deserializer(baseRoleListResponseData));
+            List<RoleInfo> roles;
+            if (baseRoleListResponseData.getResultData() == null || !ResponseCode.SUCCESS.getCode().equals(baseRoleListResponseData.getStatusCode())) {
+                logger.error("查询角色失败！");
+                roles = new ArrayList<>();
+            } else {
+                roles = baseRoleListResponseData.getResultData();
+            }
 
-        //调用FeignClient查询菜单
-        ResponseData<List<MenuInfo>> baseModuleResourceListResponseData = null;
-        // if(null!=baseModuleResourceService.getMenusByUserId(userInfo.getId())){
-        baseModuleResourceListResponseData = menuInfoController.getMenusByUserId(userInfo.getId());
-        // System.out.println("==== baseModuleResourceService.getMenusByUserId(userInfo.getId()=====");
+            //调用FeignClient查询菜单
+            ResponseData<List<MenuInfo>> baseModuleResourceListResponseData = null;
+            // if(null!=baseModuleResourceService.getMenusByUserId(userInfo.getId())){
+            baseModuleResourceListResponseData = menuInfoController.getMenusByUserId(userInfo.getId());
+            // System.out.println("==== baseModuleResourceService.getMenusByUserId(userInfo.getId()=====");
 //        }else{
 //            baseModuleResou/role/menu/saverceListResponseData = baseModuleResourceService2.getMenusByUserId(userInfo.getId());
 //            System.out.println("==== baseModuleResourceService2.getMenusByUserId(userInfo.getId()=====");
 //        }
 
-        System.out.println("====baseModuleResourceListResponseData:" + JsonUtils.deserializer(baseModuleResourceListResponseData));
-        //调用FeignClient查询组织机构
-        ResponseData<List<DeptInfo>> deptInfoListResponseData = deptInfoController.getDeptsByUserId(userInfo.getId());
-        // 获取用户权限列表
-        List<GrantedAuthority> authorities = convertToAuthorities(userInfo, roles);  //TODO
+            System.out.println("====baseModuleResourceListResponseData:" + JsonUtils.deserializer(baseModuleResourceListResponseData));
+            //调用FeignClient查询组织机构
+            ResponseData<List<DeptInfo>> deptInfoListResponseData = deptInfoController.getDeptsByUserId(userInfo.getId());
+            // 获取用户权限列表
+             authorities = convertToAuthorities(userInfo, roles);  //TODO
 
-        // 存储菜单到redis
-        if (ResponseCode.SUCCESS.getCode().equals(baseModuleResourceListResponseData.getStatusCode()) && baseModuleResourceListResponseData.getResultData() != null) {
-            redisTemplate.delete(userInfo.getId() + "-menu");
-            baseModuleResourceListResponseData.getResultData().forEach(e -> {
-                redisTemplate.opsForList().rightPush(userInfo.getId() + "-menu", e);
-            });
+            // 存储菜单到redis
+            if (ResponseCode.SUCCESS.getCode().equals(baseModuleResourceListResponseData.getStatusCode()) && baseModuleResourceListResponseData.getResultData() != null) {
+                redisTemplate.delete(userInfo.getId() + "-menu");
+                baseModuleResourceListResponseData.getResultData().forEach(e -> {
+                    redisTemplate.opsForList().rightPush(userInfo.getId() + "-menu", e);
+                });
+            }
+            if (ResponseCode.SUCCESS.getCode().equals(deptInfoListResponseData.getStatusCode()) && deptInfoListResponseData.getResultData() != null) {
+                redisTemplate.delete(userInfo.getId() + "-dept");
+                deptInfoListResponseData.getResultData().forEach(e -> {
+                    redisTemplate.opsForList().leftPush(userInfo.getId() + "-dept", e);
+                });
+            }
         }
-        if (ResponseCode.SUCCESS.getCode().equals(deptInfoListResponseData.getStatusCode()) && deptInfoListResponseData.getResultData() != null) {
-            redisTemplate.delete(userInfo.getId() + "-dept");
-            deptInfoListResponseData.getResultData().forEach(e -> {
-                redisTemplate.opsForList().leftPush(userInfo.getId() + "-dept", e);
-            });
-        }
+
+
         // 返回带有用户权限信息的User
         org.springframework.security.core.userdetails.User user = new org.springframework.security.core.userdetails.User(userInfo.getUserName(),
                 userInfo.getPassword(), isActive(userInfo.getStatus()), isAccountNonExpired(userInfo.getStatus()), true, isAccountNonLocked(userInfo.getStatus()), authorities);

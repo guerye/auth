@@ -26,6 +26,7 @@ import java.io.IOException;
 public class MyLoginAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     public static final String SPRING_SECURITY_RESTFUL_TYPE_PHONE = "phone";
+    public static final String SPRING_SECURITY_RESTFUL_TYPE_WX = "wx";
     public static final String SPRING_SECURITY_RESTFUL_TYPE_QR = "qr";
     public static final String SPRING_SECURITY_RESTFUL_TYPE_DEFAULT = "user";
 

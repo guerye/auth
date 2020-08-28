@@ -7,19 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.sql.DataSource;
 
@@ -37,8 +41,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private AuthenticationManager authenticationManager;
     @Autowired
     private WebResponseExceptionTranslator webResponseExceptionTranslator;
+    @Autowired
+    private RedisConnectionFactory redisConnectionFactory;
 
-
+    @Bean
+    RedisTokenStore redisTokenStore() {
+        return new RedisTokenStore(redisConnectionFactory);
+    }
 
     @Autowired
     @Qualifier("dataSource")
@@ -50,6 +59,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return new JdbcTokenStore(dataSource);
     }
 
+    @Bean
+    public ClientDetailsService clientDetails() {
+        return new JdbcClientDetailsService(dataSource);
+    }
 
     @Bean("jdbcClientDetailsService")
     public JdbcClientDetailsService getJdbcClientDetailsService() {
@@ -73,15 +86,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 //        DefaultTokenServices tokenServices = new DefaultTokenServices();
 //        tokenServices.setAccessTokenValiditySeconds(60*60*2);//token有效期设置2个小时
 //        tokenServices.setRefreshTokenValiditySeconds(60*60*12);//Refresh_token:12个小时
-        endpoints.authenticationManager(authenticationManager)
+        endpoints
+//                .tokenStore(getJdbcTokenStore())
+//                .tokenServices(defaultTokenServices())
+                .authenticationManager(authenticationManager)
                 // 配置JwtAccessToken转换器
                 .accessTokenConverter(jwtAccessTokenConverter())
                 // refresh_token需要userDetailsService
                 .reuseRefreshTokens(false).userDetailsService(userDetailsService)
                 .exceptionTranslator(webResponseExceptionTranslator)  // 自定义异常返回;
                 ;
-//.tokenServices(tokenServices)
-//                .tokenStore(getJdbcTokenStore());
+//        .tokenServices(tokenServices)
+
                 ;
     }
 
@@ -116,21 +132,19 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
 
-    /**
-     * 跨域, 开发环境使用 vue-cli 代理，正式用nginx
-     */
-//    @Bean
-//    public FilterRegistrationBean corsFilter() {
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        CorsConfiguration config = new CorsConfiguration();
-//        config.setAllowCredentials(true);
-//        config.addAllowedOrigin("*");
-//        config.addAllowedHeader("*");
-//        config.addAllowedMethod("*");
-//        source.registerCorsConfiguration("/**", config);
-//        FilterRegistrationBean bean =  new FilterRegistrationBean(new CorsFilter(source));
-//        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-//        return bean;
-//    }
-
+    @Primary
+    @Bean
+    public DefaultTokenServices defaultTokenServices() {
+        DefaultTokenServices tokenServices = new DefaultTokenServices();
+//        tokenServices.setTokenStore(redisTokenStore());
+//        二选一
+        tokenServices.setTokenStore(getJdbcTokenStore());
+        tokenServices.setSupportRefreshToken(true);
+        tokenServices.setClientDetailsService(clientDetails());
+        //access_token 有效期自定义设置，默认12小时
+        tokenServices.setAccessTokenValiditySeconds(60 * 60 * 12);
+        //refresh_token 默认30天，这里修改
+        tokenServices.setRefreshTokenValiditySeconds(60 * 60 * 24 * 7);
+        return tokenServices;
+    }
 }

@@ -50,17 +50,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
 //                .addFilterAt(getMyLoginAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                // 配置登陆页/login并允许访问
-                .formLogin().loginPage("/login").permitAll()
-
-                // 登出页
-                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/backReferer")
-                // 其余所有请求全部需要鉴权认证
-                .and().authorizeRequests()
+                // 配置登陆页/login并允许访问,
+//                .formLogin().loginPage("/login").permitAll()
+//
+//                // 登出页
+//                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/backReferer")
+                // 其余所有请求全部需要鉴权认证,
+//                .and()
+                .authorizeRequests()
                 .antMatchers("/css/**","/js/**","/favicon.ico","/webjars/**","/images/**","/static/**",
                         "/hystrix.stream/**","/info","/error","/health","/env","/metrics","/trace","/dump",
                         "/jolokia","/configprops","/activiti","/logfile","/refresh","/flyway","/liquibase","/loggers","/druid/**",
-                        "/oauth/deleteToken", "/backReferer","/extractToken","/role/**","/dept/**","/menu/**","/system/**","/client/**","/user/**","/right/**").permitAll()
+                        "/oauth/deleteToken","/backReferer","/extractToken","/dept/**","/role/**","/menu/**","/system/**","/client/**","/user/**","/right/**").permitAll()
                 .anyRequest().authenticated()
                 // 由于使用的是JWT，我们这里不需要csrf
                 .and().csrf().disable();

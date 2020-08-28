@@ -16,6 +16,7 @@ public class MyAuthenticationToken extends UsernamePasswordAuthenticationToken {
     private Object credentials;
     private String type;
     private String mobile;
+    private String deviceType;
 
     public MyAuthenticationToken(Object principal, Object credentials) {
         super(principal,credentials);
@@ -30,6 +31,16 @@ public class MyAuthenticationToken extends UsernamePasswordAuthenticationToken {
      * #isAuthenticated()} will return <code>false</code>.
      *
      */
+    public MyAuthenticationToken(Object principal, Object credentials,String type, String mobile,String deviceType) {
+        super(principal,credentials);
+        this.principal = principal;
+        this.credentials = credentials;
+        this.type = type;
+        this.mobile = mobile;
+        this.deviceType = deviceType;
+        this.setAuthenticated(false);
+    }
+
     public MyAuthenticationToken(Object principal, Object credentials,String type, String mobile) {
         super(principal,credentials);
         this.principal = principal;
@@ -38,7 +49,6 @@ public class MyAuthenticationToken extends UsernamePasswordAuthenticationToken {
         this.mobile = mobile;
         this.setAuthenticated(false);
     }
-
     /**
      * This constructor should only be used by <code>AuthenticationManager</code> or <code>AuthenticationProvider</code>
      * implementations that are satisfied with producing a trusted (i.e. {@link #isAuthenticated()} = <code>true</code>)
@@ -54,6 +64,7 @@ public class MyAuthenticationToken extends UsernamePasswordAuthenticationToken {
         this.credentials = credentials;
         this.type = type;
         this.mobile = mobile;
+
 //        super.setAuthenticated(true);
     }
 
@@ -74,6 +85,10 @@ public class MyAuthenticationToken extends UsernamePasswordAuthenticationToken {
 
     public String getMobile() {
         return this.mobile;
+    }
+
+    public String getDeviceType() {
+        return deviceType;
     }
 
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {

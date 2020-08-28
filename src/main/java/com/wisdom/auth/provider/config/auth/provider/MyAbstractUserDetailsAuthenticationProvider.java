@@ -1,5 +1,6 @@
 package com.wisdom.auth.provider.config.auth.provider;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wisdom.auth.provider.config.auth.token.MyAuthenticationToken;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,6 +20,9 @@ import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.cache.NullUserCache;
 import org.springframework.util.Assert;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Created by fp295 on 2018/6/16.
@@ -54,7 +58,13 @@ public abstract class MyAbstractUserDetailsAuthenticationProvider implements Aut
         UserDetails user = this.userCache.getUserFromCache(username);
         MyAuthenticationToken myAuthenticationToken=null;
         if(authentication instanceof UsernamePasswordAuthenticationToken){
-            myAuthenticationToken = new MyAuthenticationToken(authentication.getPrincipal(),authentication.getCredentials(),"user","");
+            HashMap<String,String> map=JSONObject.parseObject(JSONObject.toJSONString(authentication.getDetails()), HashMap.class);
+            if("wx".equals(map.get("deviceType"))){
+                myAuthenticationToken = new MyAuthenticationToken(authentication.getPrincipal(),authentication.getCredentials(),"wx","");
+            }else{
+                myAuthenticationToken = new MyAuthenticationToken(authentication.getPrincipal(),authentication.getCredentials(),"user","");
+            }
+
         }
         else{
             myAuthenticationToken = (MyAuthenticationToken)authentication;
