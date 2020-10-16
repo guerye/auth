@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 配置登陆页/login并允许访问,
 //                .formLogin().loginPage("/login").permitAll()
 //
-//                // 登出页
+//                // 登出页11
 //                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/backReferer")
                 // 其余所有请求全部需要鉴权认证,
 //                .and()
