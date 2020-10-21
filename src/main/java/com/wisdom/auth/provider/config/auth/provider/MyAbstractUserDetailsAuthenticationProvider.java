@@ -2,6 +2,8 @@ package com.wisdom.auth.provider.config.auth.provider;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wisdom.auth.provider.config.auth.token.MyAuthenticationToken;
+import com.wisdom.auth.provider.config.auth.util.RsaClientUtils;
+import com.wisdom.auth.provider.util.http.HttpClientUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -19,10 +21,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.cache.NullUserCache;
+import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.util.Assert;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by fp295 on 2018/6/16.
@@ -71,7 +75,19 @@ public abstract class MyAbstractUserDetailsAuthenticationProvider implements Aut
         }
         if(user == null) {
             cacheWasUsed = false;
-
+            String xinaoAuthorization=RsaClientUtils.encryptAuthInfo(myAuthenticationToken.getPrincipal().toString(),myAuthenticationToken.getCredentials().toString());
+            Map<String,String> xinaoParamMap=new HashMap<String,String>();
+            Map<String,String> xinaoHeaderMap=new HashMap<String,String>();
+            //测试3cnJTBduUOwmC8RxCENBtkIt2dJmFcP3
+            //生产AExwz6XSolbStB0MoGUaN2j71pl2JynQ
+            xinaoHeaderMap.put("appSecret","AExwz6XSolbStB0MoGUaN2j71pl2JynQ");
+            xinaoHeaderMap.put("Authorization",xinaoAuthorization);
+            //测试http://ennuser-api-test.imepaas.enncloud.cn/ennuser-api/s/api/account/auth
+            //生产http://ennuser-api-pro.enncloud.cn/ennuser-api/s/api/account/auth
+            JSONObject jsonObject=JSONObject.parseObject(HttpClientUtil.doGet("http://ennuser-api-pro.enncloud.cn/ennuser-api/s/api/account/auth",xinaoParamMap,xinaoHeaderMap));
+            if("0".equals(jsonObject.get("status").toString())){
+                throw new InvalidGrantException("Bad credentials");
+            }
             try {
                 user = this.retrieveUser(username, myAuthenticationToken);
             } catch (UsernameNotFoundException var6) {
@@ -88,7 +104,9 @@ public abstract class MyAbstractUserDetailsAuthenticationProvider implements Aut
 
         try {
             this.preAuthenticationChecks.check(user);
-            this.additionalAuthenticationChecks(user, myAuthenticationToken);
+            //验证密码
+            //新奥执行密码验证此处屏蔽
+//            this.additionalAuthenticationChecks(user, myAuthenticationToken);
         } catch (AuthenticationException var7) {
             if(!cacheWasUsed) {
                 throw var7;
