@@ -1,5 +1,6 @@
 package com.wisdom.auth.provider.config.web;
 
+import com.riozenc.titanTool.properties.Global;
 import com.wisdom.auth.provider.pojo.ResponseData;
 import com.wisdom.auth.provider.util.JsonUtils;
 import com.wisdom.auth.provider.mapper.model.UserInfo;
@@ -19,6 +20,8 @@ import java.util.Map;
 @RestController
 public class TokenController {
 
+
+
     @Autowired
     private JwtAccessTokenConverter jwtAccessTokenConverter;
     final Map<String, Date> userDateMap=new HashMap();
@@ -33,6 +36,7 @@ public class TokenController {
         if (commaIndex > 0) {
             authHeaderValue = authHeaderValue.substring(0, commaIndex);
         }
+
         String publicKey = jwtAccessTokenConverter.getKey().get("value");
 //        System.out.println(publicKey);
 //      String publicKey = "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnGp/Q5lh0P8nPL21oMMrt2RrkT9AW5jgYwLfSUnJVc9G6uR3cXRRDCjHqWU5WYwivcF180A6CWp/ireQFFBNowgc5XaA0kPpzEtgsA5YsNX7iSnUibB004iBTfU9hZ2Rbsc8cWqynT0RyN4TP1RYVSeVKvMQk4GT1r7JCEC+TNu1ELmbNwMQyzKjsfBXyIOCFU/E94ktvsTZUHF4Oq44DBylCDsS1k7/sfZC2G5EU7Oz0mhG8+Uz6MSEQHtoIi6mc8u64Rwi3Z3tscuWG2ShtsUFuNSAFNkY7LkLn+/hxLCu2bNISMaESa8dG22CIMuIeRLVcAmEWEWH5EEforTg+QIDAQAB\n-----END PUBLIC KEY-----";
@@ -52,7 +56,7 @@ public class TokenController {
                 Date date =new Date();
 //                5000
 //                1800000
-                if((date.getTime()-userDateMap.get(authHeaderValue).getTime())>1800000){
+                if((date.getTime()-userDateMap.get(authHeaderValue).getTime())>(Global.getConfig("tokenOutTime").equals("")?7200000:Long.parseLong(Global.getConfig("tokenOutTime")))){
                     userDateMap.remove(authHeaderValue);
                     return new ResponseData<>(401, "token超时", "token超时");
                 }else{
