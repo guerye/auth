@@ -381,4 +381,66 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
         }
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage());
     }
+
+    public ResponseData<List<MenuInfo>> getMenuIdsByUserId(@PathVariable("userId") Integer userId) {
+        logger.debug("根据用户查询菜单");
+
+        List<MenuInfo> topList =new ArrayList<MenuInfo>();
+        List<MenuInfo> noTopList =new ArrayList<MenuInfo>();
+        try {
+            List<Integer> menuIds=menuInfoService.getMenuIdsByUserId(userId);
+            MenuInfo menuInfo=new MenuInfo();
+            menuInfo.setStatus(1);
+            menuInfo.setSystemId(1);
+            menuInfo.setParentId(0);
+            topList=menuInfoService.findByWhere(menuInfo);
+            menuInfo.setParentId(null);
+            noTopList= menuInfoService.findByWhere(menuInfo);
+
+            for (MenuInfo menu : topList) {
+                List<MenuInfo> menus = iterateMenus(noTopList, menu.getId(),menuIds);
+                menu.setChildren(menus);
+            }
+
+//            formatRouteMenu(returnList,menuIds);
+
+        }catch (Exception e){
+            logger.error("根据用户查询菜单错误");
+            e.printStackTrace();
+            return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
+        }
+        return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(), topList);
+    }
+
+
+    /**
+     *多级菜单查询方法
+     * @param menuVoList 不包含最高层次菜单的菜单集合
+     * @param pid 父类id
+     * @return
+     */
+    public List<MenuInfo> iterateMenus(List<MenuInfo> menuVoList,Integer pid,List<Integer> menuIds){
+        List<MenuInfo> result = new ArrayList<MenuInfo>();
+        for (MenuInfo menu : menuVoList) {
+            //获取菜单的id
+            Integer menuid = menu.getId();
+            //获取菜单的父id
+            Integer parentid = menu.getParentId();
+            if(parentid!=null){
+                if(parentid.equals(pid)){
+                    //递归查询当前子菜单的子菜单
+                    List<MenuInfo> iterateMenu = iterateMenus(menuVoList,menuid,menuIds);
+                    if(1==menu.getIsLeaf()){
+                        menu.setChildren(null);
+                    }else{
+                        menu.setChildren(iterateMenu);
+                    }
+
+
+                    result.add(menu);
+                }
+            }
+        }
+        return result;
+    }
 }

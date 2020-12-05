@@ -50,6 +50,24 @@
         <collection column="{MENU_ID=ID,USER_ID=USER_ID}" property="operatings" select="selectOperatingsByMenuId"/>
     </resultMap>
 
+    <resultMap id="routeTree" type="com.wisdom.auth.provider.mapper.model.MenuInfo">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="MENU_CODE" property="menuCode" jdbcType="VARCHAR"/>
+        <result column="MENU_NAME" property="menuName" jdbcType="VARCHAR"/>
+        <result column="MENU_URL" property="menuUrl" jdbcType="VARCHAR"/>
+        <result column="PARENT_ID" property="parentId" jdbcType="INTEGER"/>
+        <result column="IMG_SRC" property="imgSrc" jdbcType="VARCHAR"/>
+        <result column="IS_LEAF" property="isLeaf" jdbcType="INTEGER"/>
+        <result column="SORT_NO" property="sortNo" jdbcType="INTEGER"/>
+        <result column="SYSTEM_ID" property="systemId" jdbcType="INTEGER"/>
+        <result column="STATUS" property="status" jdbcType="INTEGER"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="BUTTON" property="button" jdbcType="INTEGER"/>
+        <result column="ROLE_ID" property="roleId" jdbcType="VARCHAR"/>
+        <result column="MENU_NAME" property="title" jdbcType="VARCHAR"/>
+      </resultMap>
+
     <resultMap id="menuMapForTree" type="com.wisdom.auth.provider.mapper.model.MenuInfo">
         <id column="ID" property="id" jdbcType="INTEGER"/>
         <result column="MENU_CODE" property="menuCode" jdbcType="VARCHAR"/>
@@ -240,5 +258,28 @@
 
   </select>
 
+    <select id="findByWhere" resultMap="routeTree" >
+        select * from MENU_INFO
+        <where>
+            <if test="parentId != null">
+                and PARENT_ID = #{parentId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="systemId != null">
+                and SYSTEM_ID = #{systemId}
+            </if>
 
+        </where>
+        order by sort_no
+
+
+    </select>
+
+    <select id="getMenuIdsByUserId" resultType="INTEGER">
+    SELECT DISTINCT rm.MENU_ID FROM USER_ROLE_REL r
+    left join ROLE_MENU_REL rm on r.ROLE_ID=rm.ROLE_ID
+    where user_id=#{userId}  ;
+    </select>
 </mapper>

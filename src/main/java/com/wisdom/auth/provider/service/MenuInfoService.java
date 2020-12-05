@@ -34,4 +34,12 @@ public class MenuInfoService extends BaseService<MenuInfo> {
     public List<MenuRightInfo> menuButton(Integer id) {
         return ((MenuInfoMapper)mapper).menuButton(id);
     }
+
+    public List<Integer> getMenuIdsByUserId(Integer userId) {
+        return ((MenuInfoMapper)mapper).getMenuIdsByUserId(userId);
+    }
+
+    public List<MenuInfo> findByWhere(MenuInfo menuInfo){
+        return ((MenuInfoMapper)mapper).findByWhere(menuInfo);
+    }
 }

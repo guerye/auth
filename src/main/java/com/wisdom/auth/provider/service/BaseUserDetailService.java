@@ -133,7 +133,7 @@ public class BaseUserDetailService implements UserDetailsService {
             //调用FeignClient查询菜单
             ResponseData<List<MenuInfo>> baseModuleResourceListResponseData = null;
             // if(null!=baseModuleResourceService.getMenusByUserId(userInfo.getId())){
-            baseModuleResourceListResponseData = menuInfoController.getMenusByUserId(userInfo.getId());
+            baseModuleResourceListResponseData = menuInfoController.getMenuIdsByUserId(userInfo.getId());
             // System.out.println("==== baseModuleResourceService.getMenusByUserId(userInfo.getId()=====");
 //        }else{
 //            baseModuleResou/role/menu/saverceListResponseData = baseModuleResourceService2.getMenusByUserId(userInfo.getId());
