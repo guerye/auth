@@ -190,7 +190,7 @@ public class RoleInfoController extends CrudController<RoleInfo, RoleInfoRequest
 
 
     @PostMapping("/role/saveRoleMenuRel")
-    public ResponseData saveRoleMenuRel(@RequestBody RoleMenuRel roleMenuRel) {
+    public synchronized ResponseData saveRoleMenuRel(@RequestBody RoleMenuRel roleMenuRel) {
         logger.debug("保存角色权限");
         try {
             List<RoleMenuRel> addOrUpdateObj=new ArrayList<RoleMenuRel>();

@@ -398,6 +398,11 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
             noTopList= menuInfoService.findByWhere(menuInfo);
 
             for (MenuInfo menu : topList) {
+                if(menuIds.contains(menu.getId())){
+                    menu.setVisable(false);
+                }else{
+                    menu.setVisable(true);
+                }
                 List<MenuInfo> menus = iterateMenus(noTopList, menu.getId(),menuIds);
                 menu.setChildren(menus);
             }
@@ -428,6 +433,13 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
             Integer parentid = menu.getParentId();
             if(parentid!=null){
                 if(parentid.equals(pid)){
+
+                    if(menuIds.contains(menu.getId())){
+                        menu.setVisable(false);
+                    }else{
+                        menu.setVisable(true);
+                    }
+
                     //递归查询当前子菜单的子菜单
                     List<MenuInfo> iterateMenu = iterateMenus(menuVoList,menuid,menuIds);
                     if(1==menu.getIsLeaf()){

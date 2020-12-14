@@ -50,7 +50,9 @@ public class MenuInfo implements Serializable,Cloneable {
     @Column(name = "UPDATE_DATE")
     private Date updateDate;
 
-
+    //是否显示菜单
+    @Transient
+    private Boolean visable;
 
     /**
      * 子菜单
@@ -248,6 +250,26 @@ public class MenuInfo implements Serializable,Cloneable {
 
     public String getMenuCode() {
         return menuCode;
+    }
+
+    public Boolean getVisable() {
+        return visable;
+    }
+
+    public void setVisable(Boolean visable) {
+        this.visable = visable;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public boolean isExpand() {
+        return expand;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public void setMenuCode(String menuCode) {
