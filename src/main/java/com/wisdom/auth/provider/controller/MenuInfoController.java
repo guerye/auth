@@ -394,6 +394,13 @@ public class MenuInfoController extends CrudController<MenuInfo, MenuInfoRequest
             menuInfo.setSystemId(1);
             menuInfo.setParentId(0);
             topList=menuInfoService.findByWhere(menuInfo);
+            for (MenuInfo menu : topList) {
+                if(menuIds.contains(menu.getId())){
+                    menu.setVisable(false);
+                }else{
+                    menu.setVisable(true);
+                }
+            }
             menuInfo.setParentId(null);
             noTopList= menuInfoService.findByWhere(menuInfo);
 

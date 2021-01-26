@@ -64,5 +64,9 @@ public class UserInfoService extends BaseService<UserInfo> {
         // TODO Auto-generated method stub
         return ((UserInfoMapper)mapper).findMapByDomain(t);
     }
+    public List<UserInfo> findUSerByIds(List<Long> userIds) {
+        // TODO Auto-generated method stub
+        return ((UserInfoMapper)mapper).findUSerByIds(userIds);
+    }
 
 }

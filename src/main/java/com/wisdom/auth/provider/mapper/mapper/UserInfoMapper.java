@@ -13,4 +13,5 @@ public interface UserInfoMapper extends Mapper<UserInfo> {
     List<UserInfo> getUnUserTableByRoleId(UserInfo info);
     UserInfo selectHegangUser(UserInfo info);
     List<Map<Long,Object>> findMapByDomain(UserInfo t) ;
+    List<UserInfo> findUSerByIds(List<Long> ids);
 }

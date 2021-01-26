@@ -1,5 +1,6 @@
 package com.wisdom.auth.provider.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.wisdom.auth.autoconfigure.controller.CrudController;
 import com.wisdom.auth.provider.pojo.ResponseData;
@@ -298,5 +299,13 @@ public class UserInfoController extends CrudController<UserInfo, UserInfoRequest
             return new ResponseData<>(ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getMessage());
         }
         return new ResponseData<>(ResponseCode.SUCCESS.getCode(), ResponseCode.SUCCESS.getMessage(),userList);
+    }
+
+    @RequestMapping("/user/findUSerByIds")
+    @ResponseBody
+    public List<UserInfo> findUSerByIds(@RequestBody(required = false) String idsJson) {
+        List<Long> ids= JSONObject.parseArray(idsJson,Long.class);
+        List<UserInfo> userDomains=userInfoService.findUSerByIds(ids);
+        return userDomains;
     }
 }
