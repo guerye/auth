@@ -64,19 +64,17 @@
   </resultMap>
 
   <resultMap id="deptMapForTree" type="com.wisdom.auth.provider.mapper.model.DeptInfo">
-    <id column="ID" property="id" jdbcType="INTEGER"/>
-    <result column="MENU_CODE" property="menuCode" jdbcType="VARCHAR"/>
-    <result column="MENU_NAME" property="menuName" jdbcType="VARCHAR"/>
-    <result column="MENU_URL" property="menuUrl" jdbcType="VARCHAR"/>
-    <result column="PARENT_ID" property="parentId" jdbcType="INTEGER"/>
-    <result column="IMG_SRC" property="imgSrc" jdbcType="VARCHAR"/>
-    <result column="IS_LEAF" property="isLeaf" jdbcType="INTEGER"/>
-    <result column="SORT_NO" property="sortNo" jdbcType="INTEGER"/>
-    <result column="SYSTEM_ID" property="systemId" jdbcType="INTEGER"/>
-    <result column="STATUS" property="status" jdbcType="INTEGER"/>
-    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
-    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
-    <result column="BUTTON" property="button" jdbcType="INTEGER"/>
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="PARENT_ID" jdbcType="INTEGER" property="parentId" />
+    <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+    <result column="DEPT_TYPE" jdbcType="INTEGER" property="deptType" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="CLOSE_DATE" jdbcType="TIMESTAMP" property="closeDate" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="STATUS" jdbcType="SMALLINT" property="status" />
+    <result column="checked" property="checked" jdbcType="VARCHAR"/>
+    <result column="expand" property="expand" jdbcType="VARCHAR"/>
     <result column="ROLE_ID" property="roleId" jdbcType="VARCHAR"/>
     <result column="TITLE" property="title" jdbcType="VARCHAR"/>
     <collection column="{ID=ID,ROLE_ID=ROLE_ID}" property="children" select="selectRoleDeptTreeChildren"/>

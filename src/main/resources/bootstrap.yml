@@ -1,8 +1,14 @@
 eureka:
   client:
-#    registerWithEureka: false
+    #    registerWithEureka: false
     service-url:
-      defaultZone: http://guidong:df6100@172.21.29.55:7777/guidong/eureka/
+#      defaultZone: http://hegang:df6100@172.21.29.55:7777/eureka/
+#      defaultZone: http://titan:df6100@192.168.62.172:7777/eureka/
+#      defaultZone: http://titan:df6100@127.0.0.1:7777/eureka/
+      defaultZone: http://titan:df6100@172.21.29.55:7777/qinhuangdao/eureka/
+#      defaultZone: http://titan:df6100@192.168.229.139:7777/eureka/
+  #      defaultZone: http://titan:df6100@10.39.68.27:6150/eureka/
+#      defaultZone: http://titan:df6100@10.39.68.27:6150/eureka/
   instance:
     #    appGroupName: BUSINESS
     #    metadata-map:
@@ -22,17 +28,28 @@ spring:
   #     discovery:
   #       enabled: true
   #       service-id:
+#------------------------------------------------------------------------------------------
+  # redis集群配置
   redis:
-    database: 0
+#    cluster:
+#      nodes: 10.39.68.36:6379,10.39.68.37:6379,10.39.68.38:6379,10.39.68.39:6379,10.39.68.40:6379,10.39.68.41:6379
+    database: 1
+#    host: ${REDIS_HOST:192.168.229.139}
+#    port: ${REDIS_PORT:6379}
     host: ${REDIS_HOST:172.21.29.55}
-    port: ${REDIS_PORT:6380}
-    password: ${REDIS_PASS_WORD:wisdom.df6100}
+    port: ${REDIS_PORT:11143}
+    password:
+  #------------------------------------------------------------------------------------------
   datasource:
     druid:
       #      url: jdbc:mysql://${MYSQL_HOST:172.21.29.55}:${MYSQL_PORT:3306}/titan-security?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-      url: jdbc:mysql://${MYSQL_HOST:172.21.29.55}:${MYSQL_PORT:3307}/titan-security?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+#      url: jdbc:mysql://${MYSQL_HOST:172.21.29.55}:${MYSQL_PORT:3307}/titan-security?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+#      url: jdbc:mysql://${MYSQL_HOST:10.39.68.251}:${MYSQL_PORT:3306}/titan-security?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+#      url: jdbc:mysql://${MYSQL_HOST:192.168.62.172}:${MYSQL_PORT:3306}/titan-security?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+      url: jdbc:mysql://${MYSQL_HOST:172.21.29.55}:${MYSQL_PORT:11142}/titan-security?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+#      url: jdbc:mysql://${MYSQL_HOST:192.168.229.139}:${MYSQL_PORT:3306}/titan-security?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
       username: root
-      password: wisdom.df6100
+      password: df6100
       driver-class-name: com.mysql.jdbc.Driver
       max-active: 20
       initial-size: 1
@@ -74,7 +91,8 @@ security:
   oauth2:
     resource:
       jwt:
-        key-uri: http://${AUTH_CENTER_HOST:localhost}:${AUTH_CENTER_PORT:18001}/auth/oauth/token_key
+        key-uri: http://${AUTH_CENTER_HOST:localhost}:${AUTH_CENTER_PORT:6151}/auth/oauth/token_key
+#        key-uri: http://${AUTH_CENTER_HOST:192.168.229.139}:${AUTH_CENTER_PORT:6151}/auth/oauth/token_key
       id: ${spring.application.name}
       serviceId: ${spring.application.name}
 mybatis:
@@ -83,7 +101,7 @@ mybatis:
 
 
 server:
-  port: 18001
+  port: 6151
   servlet:
     context-path: /auth
 
