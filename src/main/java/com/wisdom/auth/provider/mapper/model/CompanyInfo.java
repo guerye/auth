@@ -49,7 +49,7 @@ public class CompanyInfo implements Serializable,Cloneable {
 
     private List<String> companyIdList;
     @Transient
-    private Integer companyIdLike;
+    private Long companyIdLike;
 
 
     @Transient
@@ -63,11 +63,11 @@ public class CompanyInfo implements Serializable,Cloneable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getCompanyIdLike() {
+    public Long getCompanyIdLike() {
         return companyIdLike;
     }
 
-    public void setCompanyIdLike(Integer companyIdLike) {
+    public void setCompanyIdLike(Long companyIdLike) {
         this.companyIdLike = companyIdLike;
     }
 
